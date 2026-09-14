@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Proporsi & Skala - MathLearn</title>
+    <style>
+        :root {
+            --primary: #FF9F1C;
+            --secondary: #2EC4B6;
+            --bg-light: #FDFFFC;
+            --text-dark: #011627;
+            --danger: #E71D36;
+            --accent: #4361EE;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: #f0f8ff;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 5px;
+        }
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* --- SISI KIRI: VIDEO & GAMES INTERAKTIF --- */
+        .materi-section {
+            flex: 1;
+            min-width: 350px;
+            background: var(--bg-light);
+            border: 4px solid var(--secondary);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 0 var(--secondary);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Rasio 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            border: 3px solid var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .materi-section h2 {
+            color: var(--secondary);
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.8em;
+        }
+
+        /* Tab Tombol Games */
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background: #e0e0e0;
+            color: #555;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 0 #cc7a00;
+        }
+
+        .tab-content {
+            display: none;
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px dashed var(--primary);
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Styling Slider & Simulasi */
+        .game-box {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .emoji-display {
+            font-size: 2.5em;
+            margin: 15px 0;
+            min-height: 50px;
+        }
+
+        .slider-custom {
+            width: 100%;
+            margin: 15px 0;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .hasil-box {
+            background: var(--accent);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* --- SISI KANAN: KUIS --- */
+        .quiz-section {
+            flex: 1;
+            min-width: 350px;
+            background: var(--bg-light);
+            border: 4px solid var(--danger);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 0 var(--danger);
+            height: 800px;
+            overflow-y: auto;
+        }
+
+        .quiz-section h2 {
+            color: var(--danger);
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.8em;
+        }
+
+        .question-block {
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .question-text {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+        }
+
+        .options label {
+            display: block;
+            background: #f8f9fa;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .options label:hover {
+            background: #e3f2fd;
+            border-color: #64b5f6;
+        }
+
+        .options input[type="radio"] {
+            transform: scale(1.3);
+            margin-right: 10px;
+        }
+
+        .btn-submit {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border-radius: 12px;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #900a1b;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 #900a1b;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.4em;
+            font-weight: bold;
+            display: none;
+        }
+
+        .alert-success { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+        .alert-warning { background: #fff3cd; color: #856404; border: 2px solid #ffeeba; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbar kustom */
+        .quiz-section::-webkit-scrollbar { width: 10px; }
+        .quiz-section::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .quiz-section::-webkit-scrollbar-thumb { background: #ffcccc; border-radius: 10px; }
+        .quiz-section::-webkit-scrollbar-thumb:hover { background: var(--danger); }
+
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column; }
+            .quiz-section { height: auto; overflow-y: visible; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🚀 Modul Interaktif: Proporsi! 🌟</h1>
+        <p>Tonton videonya, mainkan simulasinya, lalu uji kemampuanmu!</p>
+    </div>
+
+    <div class="main-container">
+        
+        <!-- BAGIAN KIRI: VIDEO & GAMES -->
+        <div class="materi-section">
+            <h2>Belajar dari Pak Beni 📺</h2>
+            <!-- Video YouTube Embedded -->
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/O-fJOtYZOBY" title="Video Pembelajaran Proporsi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            
+            <h2 style="margin-top:20px;">Mainkan Simulasinya 🎮</h2>
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab('game-senilai')">🐰 Kelinci (Senilai)</button>
+                <button class="tab-btn" onclick="openTab('game-berbalik')">🧹 Piket (Berbalik)</button>
+            </div>
+
+            <!-- Game Senilai -->
+            <div id="game-senilai" class="tab-content active">
+                <h3 style="text-align: center; margin-top:0;">Beri Makan Kelincimu!</h3>
+                <p>Seperti di video, 1 kelinci butuh 30 gram makanan. Coba geser tuas di bawah untuk melihat apa yang terjadi jika kelincinya bertambah!</p>
+                <div class="game-box">
+                    <div class="emoji-display" id="visual-kelinci">🐰</div>
+                    <label for="slider-kelinci">Jumlah Kelinci: <strong id="kelinci-val">1</strong> ekor</label>
+                    <input type="range" id="slider-kelinci" class="slider-custom" min="1" max="10" value="1">
+                    <br>
+                    <div>Total makanan yang dibutuhkan:</div>
+                    <div class="hasil-box" id="hasil-kelinci">30 gram</div>
+                </div>
+            </div>
+
+            <!-- Game Berbalik Nilai -->
+            <div id="game-berbalik" class="tab-content">
+                <h3 style="text-align: center; margin-top:0;">Balapan Piket Kelas!</h3>
+                <p>Merapikan kelas butuh waktu 60 menit jika dikerjakan 1 orang. Bagaimana kalau teman-temanmu ikut membantu? Geser tuasnya!</p>
+                <div class="game-box">
+                    <div class="emoji-display" id="visual-anak">👦</div>
+                    <label for="slider-anak">Jumlah Anak: <strong id="anak-val">1</strong> orang</label>
+                    <input type="range" id="slider-anak" class="slider-custom" min="1" max="10" value="1">
+                    <br>
+                    <div>Waktu selesai menyapu:</div>
+                    <div class="hasil-box" id="hasil-anak">60 menit</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BAGIAN KANAN: KUIS -->
+        <div class="quiz-section">
+            <h2>Misi Latihan 🎯</h2>
+            <div id="quiz-container"></div>
+            <button class="btn-submit" onclick="submitQuiz()">Kirim Misiku! 🚀</button>
+            <div id="result"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // Logika Tab Interaktif
+        function openTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // --- Logika Game Interaktif (Slider) ---
+        
+        // 1. Game Kelinci (Proporsi Senilai)
+        const sliderKelinci = document.getElementById('slider-kelinci');
+        const outputKelinci = document.getElementById('kelinci-val');
+        const visualKelinci = document.getElementById('visual-kelinci');
+        const hasilKelinci = document.getElementById('hasil-kelinci');
+
+        sliderKelinci.addEventListener('input', function() {
+            let jml = parseInt(this.value);
+            outputKelinci.textContent = jml;
+            // Batasi tampilan emoji agar tidak kepanjangan di layar (max 10)
+            visualKelinci.innerHTML = '🐰'.repeat(jml);
+            hasilKelinci.textContent = (jml * 30) + ' gram';
+        });
+
+        // 2. Game Bersih-bersih (Berbalik Nilai)
+        const sliderAnak = document.getElementById('slider-anak');
+        const outputAnak = document.getElementById('anak-val');
+        const visualAnak = document.getElementById('visual-anak');
+        const hasilAnak = document.getElementById('hasil-anak');
+
+        sliderAnak.addEventListener('input', function() {
+            let jml = parseInt(this.value);
+            outputAnak.textContent = jml;
+            visualAnak.innerHTML = '👦'.repeat(jml);
+            
+            // Hitung waktu berbalik nilai
+            let waktu = (60 / jml).toFixed(1);
+            if(waktu.endsWith('.0')) waktu = waktu.slice(0, -2); // hilangkan .0
+            hasilAnak.textContent = waktu + ' menit';
+        });
+
+
+        // --- Logika Kuis (10 Soal termasuk Skala) ---
+        const questions = [
+            {
+                q: "1. (Video) Pak Beni menunjukkan foto ukuran 10x8 cm disederhanakan rasionya menjadi?",
+                opts: ["5 : 4", "10 : 8", "3 : 4"],
+                ans: 0 
+            },
+            {
+                q: "2. Makanan kucing cukup untuk 2 ekor kucing selama 6 hari. Kalau ada 3 kucing, makanan habis dalam waktu?",
+                opts: ["3 hari", "4 hari", "9 hari"],
+                ans: 1 
+            },
+            {
+                q: "3. Untuk membuat 2 loyang kue, Ibu butuh 4 butir telur. Kalau Ibu mau buat 5 loyang kue, butuh berapa telur?",
+                opts: ["8 butir", "10 butir", "12 butir"],
+                ans: 1 
+            },
+            {
+                q: "4. Empat anak bisa merapikan mainan dalam 20 menit. Kalau dikerjakan 8 anak, berapa lama waktu yang dibutuhkan?",
+                opts: ["10 menit", "30 menit", "40 menit"],
+                ans: 0 
+            },
+            {
+                q: "5. (Video) 2 ekor kelinci butuh 60 gram makanan. Kalau ada 5 ekor kelinci seperti kata Pak Beni, butuh berapa makanan?",
+                opts: ["100 gram", "120 gram", "150 gram"],
+                ans: 2 
+            },
+            {
+                q: "6. Ayah mengecat pagar rumah butuh waktu 6 jam. Kalau Ayah dibantu paman (jadi 2 orang yang mengecat), pagar akan selesai dalam waktu?",
+                opts: ["3 jam", "8 jam", "12 jam"],
+                ans: 0 
+            },
+            {
+                q: "7. Dalam 3 kotak pensil warna terdapat 36 pensil. Berapa banyak pensil dalam 5 kotak yang sama?",
+                opts: ["48 pensil", "50 pensil", "60 pensil"],
+                ans: 2 
+            },
+            {
+                q: "8. Sepeda yang dikayuh dengan kecepatan 10 km/jam butuh waktu 2 jam. Kalau kecepatan 20 km/jam, butuh waktu berapa lama?",
+                opts: ["1 jam", "3 jam", "4 jam"],
+                ans: 0 
+            },
+            {
+                q: "9. Sebuah pohon aslinya setinggi 5 meter (500 cm). Jika digambar di kertas dengan tinggi 10 cm, berapakah skalanya?",
+                opts: ["1 : 5", "1 : 50", "1 : 500"],
+                ans: 1 
+            },
+            {
+                q: "10. Dua buah keran air bisa mengisi kolam dalam waktu 60 menit. Kalau 4 keran air dinyalakan bersamaan, kolam penuh dalam waktu?",
+                opts: ["20 menit", "30 menit", "120 menit"],
+                ans: 1 
+            }
+        ];
+
+        const quizEl = document.getElementById('quiz-container');
+
+        function renderQuiz() {
+            let output = '';
+            questions.forEach((question, index) => {
+                output += `<div class="question-block">
+                                <div class="question-text">${question.q}</div>
+                                <div class="options">`;
+                question.opts.forEach((opt, i) => {
+                    output += `<label>
+                                  <input type="radio" name="q${index}" value="${i}"> 
+                                  ${opt}
+                               </label>`;
+                });
+                output += `     </div>
+                           </div>`;
+            });
+            quizEl.innerHTML = output;
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            const total = questions.length;
+            let allAnswered = true;
+
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected) {
+                    if (parseInt(selected.value) === q.ans) score++;
+                } else {
+                    allAnswered = false;
+                }
+            });
+
+            if (!allAnswered) {
+                alert("Hei, ada misi yang belum dijawab! Ayo selesaikan semua soal dulu ya.");
+                return;
+            }
+
+            const resultEl = document.getElementById('result');
+            resultEl.style.display = 'block';
+
+            const finalScore = Math.round((score / total) * 100);
+
+            if (finalScore === 100) {
+                resultEl.className = 'alert-success';
+                resultEl.innerHTML = `🎉 Yey! Misi Selesai Sempurna! 🎉<br>Skor Kamu: ${finalScore}`;
+            } else if (finalScore >= 70) {
+                resultEl.className = 'alert-success';
+                resultEl.innerHTML = `Hebat! Kamu menjawab benar ${score} dari ${total}.<br>Skor Kamu: ${finalScore} 🌟`;
+            } else {
+                resultEl.className = 'alert-warning';
+                resultEl.innerHTML = `Jangan menyerah! Kamu menjawab benar ${score} dari ${total}.<br>Skor Kamu: ${finalScore}.<br>Yuk mainkan gamenya dan tonton videonya lagi! 💪`;
+            }
+        }
+
+        renderQuiz();
+    </script>
+</body>
+</html>
